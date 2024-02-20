@@ -2,25 +2,25 @@
 
 {% block content %}
 
-<p>Genre creation form.</p>
-
-<form method="POST" action="{{ url_for('main.create_genre') }}">
+<form method="POST" action="{{ url_for('main.create_user') }}">
   {{ form.csrf_token }}
   <fieldset>
-    <legend>Enter a Genre</legend>
+    <legend>Enter a username</legend>
     
-    {{ form.name.label }}
-    {{ form.name }}
+    {{ form.username.label }}
+    {{ form.username }}
+    
+    {% if form.username.errors %}
     <!-- Display errors -->
     <ul>
-      {% for error in form.name.errors %}
+      {% for error in form.username.errors %}
       <li class="error">{{ error }}</li>
       {% endfor %}
     </ul>
+    {% endif %}
     
     {{ form.submit }}
   </fieldset>
 </form>
-
 
 {% endblock %}

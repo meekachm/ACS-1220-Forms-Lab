@@ -1,6 +1,7 @@
 """Create database models to represent tables."""
 from books_app.extensions import db
 from sqlalchemy.orm import backref
+from datetime import datetime
 import enum
 
 class FormEnum(enum.Enum):
@@ -50,7 +51,7 @@ class Author(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     biography = db.Column(db.String(200))
-    books = db.relationship('Book', back_populates='author')
+    books = db.relationship("Book", back_populates="author")
 
     def __str__(self):
         return f'<Author: {self.name}>'
@@ -77,12 +78,12 @@ book_genre_table = db.Table('book_genre',
 )
 
 class User(db.Model):
+    """User model."""
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), nullable=False, unique=True)
-    favorite_books = db.relationship(
-        'Book', secondary='user_book', back_populates='users_who_favorited')
+    favorite_books = db.relationship('Book', secondary='user_book', back_populates='users_who_favorited')
 
-favorite_books_table = db.Table('user_book',
-    db.Column('book_id', db.Integer, db.ForeignKey('book.id')),
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
-)
+    favorite_books_table = db.Table('user_book',
+        db.Column('book_id', db.Integer, db.ForeignKey('book.id')),
+        db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+    )
